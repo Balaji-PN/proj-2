@@ -20,6 +20,8 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
+  useAuth,
+  RedirectToSignIn,
 } from "@clerk/clerk-react";
 
 // Get unique locations for filter
@@ -27,6 +29,8 @@ const locations = [...new Set(data.map((investor) => investor.Location))];
 const fundTypes = [...new Set(data.map((investor) => investor["Fund Type"]))];
 
 function App() {
+  const { isLoaded, isSignedIn } = useAuth();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("all");
   const [fundTypeFilter, setFundTypeFilter] = useState("all");
@@ -75,6 +79,21 @@ function App() {
       break;
   }
 
+  // Show loading state
+  if (!isLoaded) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Typography>Loading...</Typography>
+      </Container>
+    );
+  }
+
+  // Redirect to sign in if not authenticated
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
+
+  // Show the main app content if authenticated
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ 
