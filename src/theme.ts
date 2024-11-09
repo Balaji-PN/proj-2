@@ -12,4 +12,14 @@ export const theme = createTheme({
       default: '#f5f5f5',
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          textTransform: 'none',
+        },
+      },
+    },
+  },
 }); 
