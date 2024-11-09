@@ -70,24 +70,6 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
     );
   };
 
-  // Helper function to format portfolio companies
-  const formatPortfolioCompanies = (companies: string) => {
-    if (!companies) return [];
-    return companies
-      .split(";")
-      .map((company) => company.trim())
-      .filter(isValidContent);
-  };
-
-  // Helper function to format focus areas
-  const formatFocusAreas = (areas: string) => {
-    if (!areas) return [];
-    return areas
-      .split(";")
-      .map((area) => area.trim())
-      .filter(isValidContent);
-  };
-
   return (
     <Box
       sx={{
