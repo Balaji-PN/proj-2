@@ -1,4 +1,6 @@
+import { RedirectToSignIn, useAuth, UserButton } from "@clerk/clerk-react";
 import {
+  Box,
   Container,
   FormControl,
   Grid,
@@ -8,21 +10,11 @@ import {
   Stack,
   TextField,
   Typography,
-  Box,
-  Button,
 } from "@mui/material";
 import { useState } from "react";
 import "./App.css";
 import { InvestorRow } from "./components/InvestorRow";
 import { data } from "./data";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-  useAuth,
-  RedirectToSignIn,
-} from "@clerk/clerk-react";
 
 // Get unique locations for filter
 const locations = [...new Set(data.map((investor) => investor.Location))];
@@ -95,63 +87,65 @@ function App() {
 
   // Show the main app content if authenticated
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'flex-end',
-        mb: 4,
-        gap: 2
-      }}>
-        <SignedOut>
-          <Button
-            component={SignInButton}
-            variant="contained"
-            color="primary"
-            sx={{
-              borderRadius: 2,
-              textTransform: 'none',
-              px: 3
-            }}
-          >
-            Sign In
-          </Button>
-        </SignedOut>
-        <SignedIn>
-          <UserButton 
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                avatarBox: {
-                  width: 40,
-                  height: 40
-                }
-              }
-            }}
-          />
-        </SignedIn>
-      </Box>
-      <Typography
-        variant="h3"
-        component="h1"
-        gutterBottom
-        align="center"
-        sx={{ mb: 4, color: "text.primary" }}
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          justifyContent: "space-between",
+          alignItems: { xs: "center", sm: "flex-start" },
+          mb: { xs: 3, md: 4 },
+          gap: 2,
+        }}
       >
-        Investor Directory
-      </Typography>
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{
+            color: "text.primary",
+            fontSize: { xs: "1.75rem", sm: "2.5rem", md: "3rem" },
+            textAlign: { xs: "center", sm: "left" },
+          }}
+        >
+          Investor Directory
+        </Typography>
 
-      <Stack spacing={3} sx={{ mb: 4 }}>
+        <UserButton
+          afterSignOutUrl="/"
+          appearance={{
+            elements: {
+              avatarBox: {
+                width: { xs: 32, md: 40 },
+                height: { xs: 32, md: 40 },
+              },
+            },
+          }}
+        />
+      </Box>
+
+      <Stack
+        spacing={{ xs: 2, md: 3 }}
+        sx={{
+          mb: { xs: 3, md: 4 },
+          width: "100%",
+        }}
+      >
         <TextField
           fullWidth
           variant="outlined"
           placeholder="Search investors..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: { xs: 1, md: 2 },
+            },
+          }}
         />
 
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
+        <Grid container spacing={{ xs: 1.5, md: 2 }}>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl fullWidth size="small">
               <InputLabel>Location</InputLabel>
               <Select
                 value={locationFilter}
@@ -168,8 +162,8 @@ function App() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl fullWidth size="small">
               <InputLabel>Fund Type</InputLabel>
               <Select
                 value={fundTypeFilter}
@@ -186,8 +180,8 @@ function App() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
+          <Grid item xs={12} sm={12} md={4}>
+            <FormControl fullWidth size="small">
               <InputLabel>Sort By</InputLabel>
               <Select
                 value={sortBy}
@@ -205,7 +199,7 @@ function App() {
         </Grid>
       </Stack>
 
-      <Stack spacing={2}>
+      <Stack spacing={{ xs: 1.5, md: 2 }}>
         {filteredData.map((investor) => (
           <InvestorRow key={investor["S.no"]} investor={investor} />
         ))}

@@ -73,10 +73,10 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
   return (
     <Box
       sx={{
-        bgcolor: "background.paper",
-        borderRadius: 1,
+        bgcolor: 'background.paper',
+        borderRadius: { xs: 1, md: 2 },
         boxShadow: 1,
-        "&:hover": {
+        '&:hover': {
           boxShadow: 2,
         },
       }}
@@ -84,34 +84,36 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
       {/* Main Row Content */}
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          p: 2,
-          gap: 3,
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'center', sm: 'flex-start' },
+          p: { xs: 2, sm: 2 },
+          gap: { xs: 1.5, sm: 2 },
         }}
       >
         {/* Logo */}
         <Box
           sx={{
-            width: 60,
-            height: 60,
+            width: { xs: 60, sm: 60 },
+            height: { xs: 60, sm: 60 },
             borderRadius: 1,
-            overflow: "hidden",
+            overflow: 'hidden',
             flexShrink: 0,
           }}
         >
           <img
-            src={`https://placehold.co/60x60?text=${investor[
-              "Investor Name"
-            ].charAt(0)}`}
+            src={`https://placehold.co/60x60?text=${investor["Investor Name"].charAt(0)}`}
             alt={investor["Investor Name"]}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </Box>
 
-        {/* Basic Info */}
-        <Box sx={{ flex: 1, minWidth: 200 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
+        {/* Company Info - Centered on mobile */}
+        <Box sx={{ 
+          textAlign: { xs: 'center', sm: 'left' },
+          flex: 1 
+        }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
             {investor["Investor Name"]}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -120,16 +122,29 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
         </Box>
 
         {/* Fund Type & Stage */}
-        <Stack direction="row" spacing={1} sx={{ flex: 1 }}>
+        <Stack 
+          direction={{ xs: 'row', sm: 'row' }} 
+          spacing={1}
+          sx={{ 
+            flexWrap: 'wrap',
+            gap: 0.5,
+          }}
+        >
           <Chip
             label={investor["Fund Type"]}
             size="small"
-            sx={{ bgcolor: "primary.light" }}
+            sx={{ 
+              bgcolor: 'primary.light',
+              fontSize: { xs: '0.7rem', sm: '0.75rem' },
+            }}
           />
           <Chip
             label={investor["Fund Stage"]}
             size="small"
-            sx={{ bgcolor: "secondary.light" }}
+            sx={{ 
+              bgcolor: 'secondary.light',
+              fontSize: { xs: '0.7rem', sm: '0.75rem' },
+            }}
           />
         </Stack>
 
@@ -137,7 +152,11 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
         <Stack
           direction="row"
           spacing={1}
-          sx={{ flex: 1, justifyContent: "flex-end" }}
+          sx={{
+            flex: { xs: 'none', sm: 1 },
+            justifyContent: 'flex-end',
+            mt: { xs: 1, sm: 0 },
+          }}
         >
           {socialLinks.map((social, index) => (
             <Tooltip key={index} title={social.label}>
@@ -147,8 +166,9 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
                 href={social.link}
                 target="_blank"
                 sx={{
-                  color: "grey.500",
-                  "&:hover": { color: social.color },
+                  color: 'grey.500',
+                  '&:hover': { color: social.color },
+                  padding: { xs: 0.5, sm: 1 },
                 }}
               >
                 {social.icon}
@@ -163,10 +183,10 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
             onClick={() => setExpanded(!expanded)}
             size="small"
             sx={{
-              ml: 1,
-              bgcolor: expanded ? "primary.light" : "grey.100",
-              "&:hover": {
-                bgcolor: expanded ? "primary.light" : "grey.200",
+              ml: { xs: 0, sm: 1 },
+              bgcolor: expanded ? 'primary.light' : 'grey.100',
+              '&:hover': {
+                bgcolor: expanded ? 'primary.light' : 'grey.200',
               },
             }}
           >
@@ -179,25 +199,36 @@ export const InvestorRow = ({ investor }: { investor: any }) => {
       <Collapse in={expanded}>
         <Box
           sx={{
-            p: 3,
-            borderTop: "1px solid",
-            borderColor: "divider",
-            bgcolor: "grey.50",
+            p: { xs: 1.5, sm: 2, md: 3 },
+            borderTop: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'grey.50',
           }}
         >
-          {/* Description - only show if valid */}
+          {/* Description */}
           {isValidContent(investor["Fund Description"]) && (
-            <Typography variant="body2" paragraph>
+            <Typography 
+              variant="body2" 
+              paragraph
+              sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
+            >
               {investor["Fund Description"]}
             </Typography>
           )}
 
           {/* Investment Details */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6" gutterBottom>
+            <Typography 
+              variant="subtitle2" 
+              gutterBottom
+              sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+            >
               Investment Profile
             </Typography>
-            <Stack direction="row" spacing={3}>
+            <Stack 
+              direction={{ xs: 'column', sm: 'row' }} 
+              spacing={3}
+            >
               {investor["Number of Investments"] && (
                 <Typography variant="body2">
                   <strong>Total Investments:</strong>{" "}
